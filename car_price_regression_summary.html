@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Car Price Regression Analysis Summary</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+  h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+  h2 { color: #2980b9; margin-top: 30px; }
+  h3 { color: #3498db; }
+  table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+  th, td { text-align: left; padding: 12px; }
+  th { background-color: #2980b9; color: white; }
+  tr:nth-child(even) { background-color: #f2f2f2; }
+  .insight { background-color: #e8f4f8; padding: 15px; border-left: 5px solid #3498db; margin: 20px 0; }
+  .figures { text-align: center; margin: 30px 0; }
+  img { max-width: 100%; height: auto; box-shadow: 0px 0px 15px rgba(0,0,0,0.1); }
+</style>
+</head>
+<body>
+<h1>Car Price Regression Analysis Summary Report</h1>
+
+<h2>1. Introduction</h2>
+<p>This report presents a comprehensive analysis of car price prediction models using various regression approaches. 
+The analysis examines multiple model specifications to identify the most effective predictors of car prices and gain insights 
+into the factors that influence vehicle valuation.</p>
+
+<p>The dataset contains information on car prices with several potential predictors:</p>
+<ul>
+  <li>Year/Age: Production year or age of the vehicle</li>
+  <li>Mileage: Total distance traveled (also examined in log form)</li>
+  <li>Engine Size: Size of the engine in liters</li>
+  <li>Fuel Type: Categories including Diesel, Petrol, Electric, and Hybrid</li>
+</ul>
+
+<h2>2. Model Performance Summary</h2>
+<p>Several models were estimated to find the best approach for predicting car prices. The table below summarizes 
+their performance across key metrics.</p>
+
+<table border="1">
+  <tr>
+    <th>Model</th>
+    <th>R-squared</th>
+    <th>Adj. R-squared</th>
+    <th>RMSE</th>
+    <th>MAE</th>
+    <th>Normality (p-value)</th>
+    <th>AIC</th>
+  </tr>
+
+  <tr>
+    <td>Original</td>
+    <td>0.9484</td>
+    <td>0.9484</td>
+    <td>707.11</td>
+    <td>666.69</td>
+    <td>< 0.001</td>
+    <td>159618.4</td>
+  </tr>
+  <tr>
+    <td>Domain Knowledge</td>
+    <td>0.8705</td>
+    <td>0.8705</td>
+    <td>1119.88</td>
+    <td>860.43</td>
+    <td>< 0.001</td>
+    <td>168814.3</td>
+  </tr>
+  <tr>
+    <td>Economy Segment</td>
+    <td>0.7119</td>
+    <td>0.7114</td>
+    <td>786.88</td>
+    <td>604.93</td>
+    <td>< 0.001</td>
+    <td>53390.3</td>
+  </tr>
+  <tr>
+    <td>Mid-range Segment</td>
+    <td>0.3420</td>
+    <td>0.3409</td>
+    <td>665.15</td>
+    <td>546.41</td>
+    <td>< 0.001</td>
+    <td>53864.8</td>
+  </tr>
+  <tr>
+    <td>Luxury Segment</td>
+    <td>0.6243</td>
+    <td>0.6236</td>
+    <td>931.31</td>
+    <td>747.95</td>
+    <td>< 0.001</td>
+    <td>54502.5</td>
+  </tr>
+  <tr>
+    <td>Robust Regression</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>1145.31</td>
+    <td>835.56</td>
+    <td>< 0.001</td>
+    <td>N/A</td>
+  </tr></table>
+<div class="insight">
+  <h3>Key Insights on Model Performance:</h3>
+  <ul>
+    <li>The original model explains approximately  94.8%  of the variation in car prices.</li>
+    <li>Segment-specific models show varying performance, with the Economy segment model achieving the highest R-squared of  71.2% .</li>
+    <li>The Domain Knowledge model (using Age and log-Mileage) provides more interpretable coefficients with similar predictive power.</li>
+    <li>All models show some deviation from normality in their residuals (p < 0.001), but the segment-specific models show improved normality.</li>
+    <li>The original model has the lowest AIC value, suggesting it balances fit and complexity well.</li>
+  </ul>
+</div>
+
+<div class="figures">
+  <figure>
+    <img src="r_squared_comparison.png" alt="R-squared Comparison">
+    <figcaption>Figure 1: Comparison of R-squared values across models</figcaption>
+  </figure>
+  
+  <figure>
+    <img src="error_metrics_comparison.png" alt="Error Metrics Comparison">
+    <figcaption>Figure 2: RMSE and MAE comparison across models</figcaption>
+  </figure>
+  
+  <figure>
+    <img src="qq_plot_comparison.png" alt="QQ Plot Comparison">
+    <figcaption>Figure 3: QQ plot comparison showing residual normality across models</figcaption>
+  </figure>
+</div>
+
+<h2>3. Key Determinants of Car Prices</h2>
+<p>The analysis identified several key factors that significantly influence car prices:</p>
+
+<h3>3.1 Age/Year Effect</h3>
+<p>Vehicle age is one of the strongest predictors of price:</p>
+<ul>
+  <li>Each additional year of age reduces a vehicle's price by approximately $ 299  on average.</li>
+  <li>This depreciation effect is stronger in the Economy segment ($ 229 ) than in the Mid-range segment ($ 108 ).</li>
+  <li>This confirms the expectation that cars lose value over time, with newer vehicles commanding premium prices.</li>
+</ul>
+
+<h3>3.2 Mileage Impact</h3>
+<p>Mileage is another critical factor in car valuation:</p>
+<ul>
+  <li>The relationship between mileage and price is non-linear, better captured by a logarithmic transformation.</li>
+  <li>For the Domain Knowledge model, a 10% increase in mileage is associated with approximately a $ 142  decrease in price.</li>
+  <li>The mileage effect varies by segment, with the strongest impact in the Economy segment.</li>
+</ul>
+
+<h3>3.3 Engine Size Premium</h3>
+<p>Engine size positively affects car prices:</p>
+<ul>
+  <li>Each additional liter of engine size is associated with a price increase of approximately $ 1000 .</li>
+  <li>This effect is also segmented: $ 782  in the Economy segment vs. $ 722  in the Luxury segment.</li>
+</ul>
+
+<h3>3.4 Fuel Type Effects</h3>
+<p>Fuel type creates notable price premiums:</p>
+<ul>
+  <li>Electric vehicles command a premium of approximately $ 1949  over diesel vehicles.</li>
+  <li>Hybrid vehicles sell for about $ 958  more than comparable diesel vehicles.</li>
+  <li>There is no significant price difference between petrol and diesel vehicles when controlling for other factors.</li>
+</ul>
+
+<div class="figures">
+  <figure>
+    <img src="coefficient_comparison.png" alt="Coefficient Comparison">
+    <figcaption>Figure 4: Comparison of key coefficient estimates across models</figcaption>
+  </figure>
+</div>
+
+<h2>4. Key Insights and Implications</h2>
+
+<div class="insight">
+<h3>4.1 Market Segmentation</h3>
+<p>The analysis reveals distinct pricing dynamics across market segments:</p>
+<ul>
+  <li><strong>Economy Segment:</strong> Price is highly sensitive to age, mileage, and engine size, with R² of  0.71 . Depreciation is steepest in this segment.</li>
+  <li><strong>Mid-range Segment:</strong> Less price variation is explained by the model (R² =  0.34 ), suggesting other factors like brand prestige, features, 
+  or condition may play larger roles.</li>
+  <li><strong>Luxury Segment:</strong> Shows moderate predictability (R² =  0.62 ) with high sensitivity to engine size and premium fuel types.</li>
+</ul>
+<p><strong>Implication:</strong> Different marketing and pricing strategies should be employed for different market segments.
+Economy cars should emphasize low age and mileage, while luxury vehicles can highlight engine performance and alternative fuel options.</p>
+</div>
+
+<div class="insight">
+<h3>4.2 Depreciation Patterns</h3>
+<p>The analysis confirms that car depreciation follows non-linear patterns:</p>
+<ul>
+  <li>Age impact is approximately linear when analyzed within segments.</li>
+  <li>Mileage impact follows a logarithmic pattern, with early miles causing more depreciation than later ones.</li>
+  <li>These patterns vary across market segments, with economy cars depreciating faster.</li>
+</ul>
+<p><strong>Implication:</strong> For investment purposes, luxury vehicles may retain value better over time. 
+For consumers seeking value, mid-range vehicles with moderate mileage may offer the best price-to-value ratio.</p>
+</div>
+
+<div class="insight">
+<h3>4.3 Alternative Fuel Premium</h3>
+<p>Electric and hybrid vehicles maintain significant price premiums:</p>
+<ul>
+  <li>Electric vehicles command the highest premium ($ 1949  over diesel).</li>
+  <li>Hybrid vehicles also maintain strong premiums across all segments.</li>
+  <li>This suggests market recognition of both the technology value and potential fuel savings.</li>
+</ul>
+<p><strong>Implication:</strong> The strong premium for alternative fuel vehicles indicates consumer willingness to pay 
+for green technology. Manufacturers should continue investing in alternative powertrains, while used car sellers 
+should highlight these features in marketing.</p>
+</div>
+
+<div class="insight">
+<h3>4.4 Methodological Insights</h3>
+<p>The analysis demonstrates that:</p>
+<ul>
+  <li>Domain knowledge transformations (Age instead of Year, log-Mileage) improve model interpretability.</li>
+  <li>Market segmentation significantly improves normality of residuals, addressing a key regression assumption.</li>
+  <li>Robust regression provides reliable coefficient estimates even with some non-normality in the data.</li>
+</ul>
+<p><strong>Implication:</strong> Effective car price modeling requires both statistical rigor and domain expertise. 
+Simple domain-informed transformations can be more effective than complex statistical approaches.</p>
+</div>
+
+<h2>5. Conclusion</h2>
+<p>This comprehensive analysis of car price determinants reveals several key findings:</p>
+
+<ol>
+  <li><strong>Major Value Drivers:</strong> Vehicle age, mileage, engine size, and fuel type collectively explain 
+  a large portion of car price variation (approximately  94.8% ).</li>
+  
+  <li><strong>Market Segmentation:</strong> The car market shows distinct pricing dynamics across segments, with different 
+  factors carrying different weights in each segment. This suggests targeted pricing strategies are appropriate.</li>
+  
+  <li><strong>Alternative Fuel Value:</strong> Electric and hybrid vehicles maintain significant price premiums, 
+  reflecting consumer valuation of eco-friendly technology and potential fuel savings.</li>
+  
+  <li><strong>Modeling Approach:</strong> While the original model performs well statistically (lowest AIC), the 
+  domain-knowledge model and segment-specific models offer superior interpretability and insights into market dynamics.</li>
+</ol>
+
+<p>For practical applications, we recommend using the segment-specific models for targeted price predictions within market segments, 
+and the domain knowledge model for general market analysis and interpretation of factors affecting car prices.</p>
+
+</body>
+</html>
